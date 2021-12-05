@@ -23,7 +23,7 @@ class AuthController extends Controller {
             if (password_verify($request->password, $user->password)) {
                 return $this->success($user);
             } else {
-                return $this->error("Password salah");
+                return $this->error("Wrong password");
             }
         }
         return $this->error("User tidak di temukan");
@@ -52,6 +52,17 @@ class AuthController extends Controller {
         }
     }
 
+    public function update(Request $request, $id) {
+
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $user->update($request->all());
+            return $this->success($user);
+        }
+
+        return $this->error("tidak ada user");
+    }
+
     public function success($data, $message = "success") {
         return response()->json([
             'code' => 200,
@@ -65,5 +76,10 @@ class AuthController extends Controller {
             'code' => 400,
             'message' => $message
         ], 400);
+//        return response()->json([
+//            'ok' => false,
+//            'error_code' => 400,
+//            'description' => $message
+//        ], 400);
     }
 }
