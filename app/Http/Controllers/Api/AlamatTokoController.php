@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Toko;
-use App\Models\User;
+use App\Models\AlamatToko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class TokoController extends Controller {
-
+class AlamatTokoController extends Controller {
     public function index() {
-        //
+
     }
 
     public function create() {
@@ -20,21 +18,26 @@ class TokoController extends Controller {
 
     public function store(Request $request) {
         $validasi = Validator::make($request->all(), [
-            'userId' => 'required',
-            'name' => 'required',
+            'alamat' => 'required',
+            'provinsi' => 'required',
             'kota' => 'required',
+            'kodepost' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
         ]);
 
         if ($validasi->fails()) {
             return $this->error($validasi->errors()->first());
         }
 
-        $toko = Toko::create($request->all());
+        $toko = AlamatToko::create($request->all());
         return $this->success($toko);
+        //
     }
 
     public function show($id) {
-        //
+        $alamat = AlamatToko::where('tokoId', $id)->where('isActive', true)->get();
+        return $this->success($alamat);
     }
 
     public function edit($id) {
@@ -42,19 +45,24 @@ class TokoController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        //
+        $alamat = AlamatToko::where('id', $id)->first();
+        if ($alamat) {
+            $alamat->update($request->all());
+            return $this->success($alamat);
+        } else {
+            return $this->error("Alamat tidak ditemukan");
+        }
     }
 
     public function destroy($id) {
-        //
-    }
-
-    public function cekToko($id) {
-        $user = User::where('id', $id)->with('toko')->first();
-        if ($user) {
-            return $this->success($user);
+        $alamat = AlamatToko::where('id', $id)->first();
+        if ($alamat) {
+            $alamat->update([
+                'isActive' => false
+            ]);
+            return $this->success($alamat, "Alamat berhasil dihapus");
         } else {
-            return $this->error("User tidak ditemukan");
+            return $this->error("Alamat tidak ditemukan");
         }
     }
 
