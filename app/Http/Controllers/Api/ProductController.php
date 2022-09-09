@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Helper;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -69,5 +70,21 @@ class ProductController extends Controller {
         } else {
             return $this->error("Product tidak ditemukan");
         }
+    }
+
+    public function upload(Request $request) {
+        $fileName = "";
+        if ($request->image) {
+            $image = $request->image->getClientOriginalName();
+            $image = str_replace(' ', '', $image);
+            $image = date('Hs') . rand(1, 999) . "_" . $image;
+            $fileName = $image;
+            $request->image->storeAs('public/product', $image);
+
+            return $fileName;
+        } else {
+            return $this->error("Image wajib di kirim");
+        }
+        return $this->error("User tidak ditemukan");
     }
 }

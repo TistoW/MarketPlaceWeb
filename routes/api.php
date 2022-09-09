@@ -31,3 +31,4 @@ Route::resource('toko', TokoController::class);
 Route::get('toko-user/{id}', [TokoController::class, 'cekToko']);
 Route::resource('alamat-toko', AlamatTokoController::class);
 Route::resource('product', ProductController::class);
+Route::post('upload/product', [ProductController::class, 'upload']);

@@ -15,6 +15,7 @@ class Product extends Model {
         'wight', // gram
         'price',
         'stock',
+        'images',
         'isActive',
     ];
 
