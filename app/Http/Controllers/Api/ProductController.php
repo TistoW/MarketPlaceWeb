@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helper;
-use App\Models\AlamatToko;
+use App\Models\Product;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class AlamatTokoController extends Controller {
+class ProductController extends Controller {
 
     use Helper;
 
@@ -20,27 +21,27 @@ class AlamatTokoController extends Controller {
 
     }
 
-    public function store(Request $request) {
+    public function store(Request $request): JsonResponse {
         $validasi = Validator::make($request->all(), [
-            'alamat' => 'required',
-            'provinsi' => 'required',
-            'kota' => 'required',
-            'kodepost' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'tokoId' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'wight' => 'required', // gram
+            'price' => 'required',
+            'stock' => 'required',
         ]);
 
         if ($validasi->fails()) {
             return $this->error($validasi->errors()->first());
         }
 
-        $toko = AlamatToko::create($request->all());
+        $toko = Product::create($request->all());
         return $this->success($toko);
         //
     }
 
     public function show($id) {
-        $alamat = AlamatToko::where('tokoId', $id)->where('isActive', true)->get();
+        $alamat = Product::where('tokoId', $id)->where('isActive', true)->get();
         return $this->success($alamat);
     }
 
@@ -49,24 +50,24 @@ class AlamatTokoController extends Controller {
     }
 
     public function update(Request $request, $id) {
-        $alamat = AlamatToko::where('id', $id)->first();
+        $alamat = Product::where('id', $id)->first();
         if ($alamat) {
             $alamat->update($request->all());
             return $this->success($alamat);
         } else {
-            return $this->error("Alamat tidak ditemukan");
+            return $this->error("Product tidak ditemukan");
         }
     }
 
     public function destroy($id) {
-        $alamat = AlamatToko::where('id', $id)->first();
+        $alamat = Product::where('id', $id)->first();
         if ($alamat) {
             $alamat->update([
                 'isActive' => false
             ]);
-            return $this->success($alamat, "Alamat berhasil dihapus");
+            return $this->success($alamat, "Product berhasil dihapus");
         } else {
-            return $this->error("Alamat tidak ditemukan");
+            return $this->error("Product tidak ditemukan");
         }
     }
 }

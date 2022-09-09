@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AlamatTokoController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TokoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,4 @@ Route::post('upload-user/{id}', [AuthController::class, 'upload']);
 Route::resource('toko', TokoController::class);
 Route::get('toko-user/{id}', [TokoController::class, 'cekToko']);
 Route::resource('alamat-toko', AlamatTokoController::class);
+Route::resource('product', ProductController::class);
