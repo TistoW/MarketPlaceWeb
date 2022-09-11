@@ -81,10 +81,9 @@ class ProductController extends Controller {
             $fileName = $image;
             $request->image->storeAs('public/product', $image);
 
-            return $fileName;
+            return $this->success($fileName);
         } else {
             return $this->error("Image wajib di kirim");
         }
-        return $this->error("User tidak ditemukan");
     }
 }
