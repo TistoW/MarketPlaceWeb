@@ -19,4 +19,12 @@ trait Helper {
             'message' => $message
         ], 400);
     }
+
+    public function generateToken(): string {
+        $alfabet = "abcdefghijklmnopqrstuvwxyz";
+        $alfabetUpercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $numeric = "1234567890";
+        $allCart = $alfabet . $alfabetUpercase . $numeric;
+        return substr(str_shuffle($allCart), 0, 60);
+    }
 }

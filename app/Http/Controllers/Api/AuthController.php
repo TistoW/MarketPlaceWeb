@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helper;
+use App\Models\PersonalToken;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller {
+
+    use Helper;
+
     public function login(Request $request) {
         $validasi = Validator::make($request->all(), [
             'email' => 'required',
@@ -21,6 +26,12 @@ class AuthController extends Controller {
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {
+                $token = PersonalToken::create([
+                    'token' => $this->generateToken(),
+                    'userId' => $user->id
+                ]);
+
+                $user->token = $token->token;
                 return $this->success($user);
             } else {
                 return $this->error("Wrong password");
@@ -83,25 +94,5 @@ class AuthController extends Controller {
             return $this->success($user);
         }
         return $this->error("User tidak ditemukan");
-    }
-
-    public function success($data, $message = "success") {
-        return response()->json([
-            'code' => 200,
-            'message' => $message,
-            'data' => $data
-        ]);
-    }
-
-    public function error($message) {
-        return response()->json([
-            'code' => 400,
-            'message' => $message
-        ], 400);
-//        return response()->json([
-//            'ok' => false,
-//            'error_code' => 400,
-//            'description' => $message
-//        ], 400);
     }
 }
