@@ -14,20 +14,20 @@ class AuthAdmin {
     public function handle(Request $request, Closure $next) {
 
         $token = $request->header('token');
-        if (!$token){
+        if (!$token) {
             return $this->error("Not authorization");
         }
         $personalToken = PersonalToken::where('token', $token)->first();
         if ($personalToken) {
             $user = $personalToken->user;
-            if ($user) {
+            try {
                 if ($user->userRole->isAdmin) {
                     return $next($request);
                 } else {
                     return $this->error("Hanya admin yang bisa access");
                 }
-            } else {
-                return $this->error("User tidak ditemukan");
+            } catch (\Exception $e) {
+                return $this->error("Hanya admin yang bisa access");
             }
         } else {
             return $this->error("Token Expired");

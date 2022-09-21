@@ -50,7 +50,7 @@ class TokoController extends Controller {
     }
 
     public function cekToko($id) {
-        $user = User::where('id', $id)->with('toko')->first();
+        $user = User::where('id', $id)->with(['toko', 'userRole'])->first();
         if ($user) {
             return $this->success($user);
         } else {

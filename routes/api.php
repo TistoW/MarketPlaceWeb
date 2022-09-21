@@ -24,19 +24,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::put('update-user/{id}', [AuthController::class, 'update']);
-Route::post('upload-user/{id}', [AuthController::class, 'upload']);
 
 Route::middleware('user')->group(function () {
+
+    Route::put('update-user/{id}', [AuthController::class, 'update']);
+    Route::post('upload-user/{id}', [AuthController::class, 'upload']);
+
     Route::resource('toko', TokoController::class);
     Route::get('toko-user/{id}', [TokoController::class, 'cekToko']);
 
     Route::resource('alamat-toko', AlamatTokoController::class);
     Route::post('upload/product', [ProductController::class, 'upload']);
+    Route::resource('product', ProductController::class);
 });
 
 Route::middleware('admin')->group(function () {
-    Route::resource('product', ProductController::class);
+    Route::resource('category', ProductController::class);
 });
 
 

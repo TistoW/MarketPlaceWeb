@@ -23,7 +23,7 @@ class AuthController extends Controller {
             return $this->error($validasi->errors()->first());
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->with('userRole')->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {
                 $token = PersonalToken::create([
