@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 trait Helper {
     public function success($data, $message = "success"): JsonResponse {

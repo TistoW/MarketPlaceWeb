@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\api\AlamatTokoController;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TokoController;
 use Illuminate\Http\Request;
@@ -36,10 +38,12 @@ Route::middleware('user')->group(function () {
     Route::resource('alamat-toko', AlamatTokoController::class);
     Route::post('upload/product', [ProductController::class, 'upload']);
     Route::resource('product', ProductController::class);
+
+    Route::post('upload/{path}', [BaseController::class, 'upload']);
 });
 
 Route::middleware('admin')->group(function () {
-    Route::resource('category', ProductController::class);
+    Route::resource('category', CategoryController::class);
 });
 
 
