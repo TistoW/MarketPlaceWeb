@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model {
     use HasFactory;
@@ -17,11 +18,15 @@ class Product extends Model {
         'stock',
         'images',
         'isActive',
+        'categoryId',
     ];
 
     protected $casts = [
         'isActive' => 'boolean'
     ];
 
+    public function category(): HasOne {
+        return $this->hasOne(Category::class, "id", "categoryId");
+    }
 
 }

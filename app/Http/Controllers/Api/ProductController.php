@@ -42,7 +42,10 @@ class ProductController extends Controller {
     }
 
     public function show($id) {
-        $alamat = Product::where('tokoId', $id)->where('isActive', true)->get();
+        $alamat = Product::where('tokoId', $id)
+            ->with('category:id,name')
+            ->where('isActive', true)
+            ->get();
         return $this->success($alamat);
     }
 
