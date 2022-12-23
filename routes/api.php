@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AlamatTokoController;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TokoController;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 Route::middleware('user')->group(function () {
+    Route::get('home', [HomeController::class, 'getHome']);
 
     Route::put('update-user/{id}', [AuthController::class, 'update']);
     Route::post('upload-user/{id}', [AuthController::class, 'upload']);
