@@ -41,12 +41,29 @@ class ProductController extends Controller {
         //
     }
 
-    public function show($id) {
+    public function show($id): JsonResponse {
         $alamat = Product::where('tokoId', $id)
-            ->with('category:id,name')
+            ->with(['category:id,name'])
             ->where('isActive', true)
             ->get();
         return $this->success($alamat);
+    }
+
+    public function detailProduct($id): JsonResponse {
+        $product = Product::where('id', $id)
+            ->with([
+                'category:id,name',
+                'store:id,name',
+                'store.address:id,tokoId,kota',
+            ])
+            ->where('isActive', true)
+            ->first();
+        if ($product) {
+            return $this->success($product);
+        }
+
+        return $this->error("Product not found");
+
     }
 
     public function edit($id) {

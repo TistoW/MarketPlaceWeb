@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Toko extends Model {
     use HasFactory;
@@ -15,4 +16,8 @@ class Toko extends Model {
         'kota',
         'image'
     ];
+
+    public function address(): HasOne {
+        return $this->hasOne(AlamatToko::class, "tokoId", "id");
+    }
 }

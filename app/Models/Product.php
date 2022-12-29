@@ -30,4 +30,8 @@ class Product extends Model {
         return $this->hasOne(Category::class, "id", "categoryId");
     }
 
+    public function store(): HasOne {
+        return $this->hasOne(Toko::class, "id", "tokoId");
+    }
+
 }

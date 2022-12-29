@@ -41,6 +41,7 @@ Route::middleware('user')->group(function () {
     Route::resource('alamat-toko', AlamatTokoController::class);
     Route::post('upload/product', [ProductController::class, 'upload']);
     Route::resource('product', ProductController::class);
+    Route::get('product-detail/{id}', [ProductController::class, 'detailProduct']);
 
     Route::post('upload/{path}', [BaseController::class, 'upload']);
 });

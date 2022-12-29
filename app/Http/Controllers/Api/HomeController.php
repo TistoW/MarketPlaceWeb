@@ -17,7 +17,15 @@ class HomeController extends Controller {
 
         $categories = Category::where('isActive', true)->get();
         $slider = Slider::where('isActive', true)->get();
-        $products = Product::where('isActive', true)->orderBy('sold', 'desc')->get()->take(8);
+        $products = Product::where('isActive', true)
+            ->with([
+                'store:id,name',
+                'store.address:id,tokoId,kota',
+            ])
+            ->select(['id', 'tokoId', 'name', 'price', 'sold', 'images'])
+            ->orderBy('sold', 'desc')
+            ->get()
+            ->take(8);
 
         $data = [
             'categories' => $categories,
